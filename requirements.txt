@@ -1,0 +1,18 @@
+# Core Deep Learning & Speech Processing Requirements
+torch>=2.2.0
+torchaudio>=2.2.0
+transformers>=4.40.0
+accelerate>=0.28.0
+
+# Audio Processing & Feature Extraction
+librosa>=0.10.1
+soundfile>=0.12.1
+scipy>=1.11.0
+audiomentations>=0.35.0
+
+# Evaluation & Metrics
+sacrebleu>=2.4.0
+jiwer>=3.0.3
+
+# Interactive UI Prototype
+gradio>=4.25.0
