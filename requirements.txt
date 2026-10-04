@@ -1,18 +1,19 @@
-# Core Deep Learning & Speech Processing Requirements
+# Deep Learning Foundations & Speech Processing
 torch>=2.2.0
 torchaudio>=2.2.0
 transformers>=4.40.0
 accelerate>=0.28.0
 
-# Audio Processing & Feature Extraction
+# Tokenization & Translation Subsystems
+sentencepiece>=0.2.0
+sacremoses>=0.2.0
+
+# Speech Synthesis & Audio Processing
+gTTS>=2.5.0
 librosa>=0.10.1
 soundfile>=0.12.1
 scipy>=1.11.0
-audiomentations>=0.35.0
+numpy>=1.24.0
 
-# Evaluation & Metrics
-sacrebleu>=2.4.0
-jiwer>=3.0.3
-
-# Interactive UI Prototype
+# Web Application & Deployment (Hugging Face Spaces compatible)
 gradio>=4.25.0

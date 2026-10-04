@@ -1,85 +1,58 @@
-# How to Run the PAASR Project
+# How to Run the PAASR Research Prototype
 
-This repository contains the architecture, research proposal, community evaluation framework, and prototype implementation for:
-**"A Phonology-Aware Adaptive Speech Representation Framework for Robust Low-Resource Telugu-to-English Direct Speech-to-Speech Translation (PAASR)"**.
-
----
-
-## 1. Quick Start: Running the Architecture Verification Script
-
-The script `paasr_model.py` validates the multi-stream decomposition ($F_{\text{acoustic}}, F_{\text{phonology}}, F_{\text{context}}$), condition estimation ($C$), adaptive softmax gating (CARF), and Phonological Consistency Loss (PCL).
-
-### Step 1.1: Install PyTorch & Dependencies
-Open PowerShell or Command Prompt in this folder and install PyTorch:
-```powershell
-pip install torch torchaudio
-```
-Or install all dependencies from `requirements.txt`:
-```powershell
-pip install -r requirements.txt
-```
-
-### Step 1.2: Execute the Architecture Test
-```powershell
-python paasr_model.py
-```
-
-**Expected Output:**
-```text
-=== Testing PAASR Model forward pass ===
-Executing on device: cuda (or cpu)
-
-[Shapes Verification]
-PAASR Fused Representation : torch.Size([4, 100, 512]) (Expected: [4, 100, 512])
-Gating Weights alpha       : torch.Size([4, 100, 3]) (Expected: [4, 100, 3])
-Speaker Vector C_spk       : torch.Size([4, 192]) (Expected: [4, 192])
-Accent Posterior C_acc     : torch.Size([4, 4]) (Expected: [4, 4])
-Target Unit Logits         : torch.Size([4, 30, 1000]) (Expected: [4, 30, 1000])
-Phonological Consistency Loss (PCL): 1.3863
-
-=== All PAASR architecture sanity checks passed successfully! ===
-```
+This project provides an interactive Telugu-to-English Speech-to-Speech Translation research prototype under the **PAASR (Phonology-Aware Adaptive Speech Representation)** framework.
 
 ---
 
-## 2. Running the Interactive Web Demonstration UI
+## 1. Quick Start: Launching the Application
 
-The prototype includes an interactive Gradio web application (`demo_app.py`) for live voice testing, simulated condition analysis, gating visualization, and community survey collection.
+Activate your virtual environment and launch the Gradio web interface with:
 
-### Step 2.1: Install Gradio
 ```powershell
-pip install gradio
+python app.py
 ```
+*(Or `python demo_app.py`, which routes directly to `app.py`)*
 
-### Step 2.2: Launch the App
-```powershell
-python demo_app.py
-```
-After running, open your web browser at:
+Once started, open your web browser at:
 ```
 http://127.0.0.1:7860
 ```
 
-### Features Available in the Web UI:
-1. **Live S2ST Prototype:** Test voice translation across three preset community domains (Healthcare, Agriculture, Education), view real-time extracted condition metrics ($C$), and see dynamic gating weights ($\boldsymbol{\alpha}$).
-2. **Community Field Survey:** A digital version of the 10-question survey that logs responses directly to `survey_responses.jsonl`.
-3. **Mathematical Model & Novelty:** Full interactive summary of equations and architectural flow.
+---
+
+## 2. End-to-End Real Translation Pipeline
+
+When you record or upload spoken Telugu audio, the application executes the live translation pipeline:
+
+1. **Telugu Speech Input:** Accepts `.wav`, `.mp3`, or direct browser microphone recordings, normalized and resampled to 16 kHz mono.
+2. **Telugu ASR:** Transcribes spoken Telugu directly into Telugu Unicode text using a fine-tuned Whisper model (`vasista22/whisper-telugu-tiny`).
+3. **Telugu → English Translation:** Translates recognized Telugu text into English using `Helsinki-NLP/opus-mt-dra-en` (MarianMT Dravidian-to-English model).
+4. **English Speech Synthesis (TTS):** Converts translated English text into natural playable English speech (`gTTS`).
+5. **Real-time Diagnostics:** Displays input audio duration, estimated SNR, per-module execution latency, and step-by-step transcriptions.
 
 ---
 
-## 3. Viewing the Research Proposal & Presentations
+## 3. Web Interface Features
 
-All master documentation files are standard GitHub-flavored Markdown:
+- **🚀 Live S2ST Prototype:**
+  - Record voice or upload custom audio.
+  - Includes 3 one-click real Telugu speech examples (Agriculture, Healthcare, Education).
+  - Outputs playable synthesized English speech, the Telugu transcript, the English translation, and latency statistics.
+- **📝 Community Field Survey:**
+  - Interactive 10-question questionnaire for rural & semi-urban field studies, logging non-identifying responses to `survey_responses.jsonl`.
+- **📐 Mathematical Model & Novelty:**
+  - Complete theoretical formulation of PAASR multi-stream decomposition, CARF dynamic gating, and PCL contrastive invariance.
 
-| Document | Purpose |
-| :--- | :--- |
-| **`PAASR_Research_Proposal.md`** | Complete 11-section formal proposal with literature survey, block diagrams (Mermaid), mathematical formulation, and Gantt chart. |
-| **`Community_Survey_Questionnaire.md`** | Printable survey form with ethical statements, demographic rubrics, and field observation log. |
-| **`PAASR_Presentation_Deck.md`** | 10-slide executive pitch deck for funding review and defense. |
+---
 
-To preview or convert to PDF:
-- **In VS Code / IDE:** Press `Ctrl + Shift + V` to preview the rendered document with diagrams.
-- **Convert to Word/PDF:** You can use Pandoc:
-  ```powershell
-  pandoc PAASR_Research_Proposal.md -o PAASR_Research_Proposal.docx
-  ```
+## 4. Dependencies & Hugging Face Spaces Deployment
+
+All necessary dependencies are listed in `requirements.txt`:
+```powershell
+pip install -r requirements.txt
+```
+
+To deploy on **Hugging Face Spaces**:
+1. Create a new Space with the **Gradio** SDK.
+2. Upload `app.py`, `requirements.txt`, and the sample audio files (`sample_telugu.mp3`, etc.).
+3. The Space will automatically build and start the web interface.
