@@ -26,7 +26,7 @@ When you record or upload spoken Telugu audio, the application executes the live
 
 1. **Telugu Speech Input:** Accepts `.wav`, `.mp3`, or direct browser microphone recordings, normalized and resampled to 16 kHz mono.
 2. **Telugu ASR:** Transcribes spoken Telugu directly into Telugu Unicode text using a fine-tuned Whisper model (`vasista22/whisper-telugu-tiny`).
-3. **Telugu → English Translation:** Translates recognized Telugu text into English using `Helsinki-NLP/opus-mt-dra-en` (MarianMT Dravidian-to-English model).
+3. **Telugu → English Translation:** Translates recognized Telugu text directly into English using `facebook/nllb-200-distilled-600M`, with Telugu (`tel_Telu`) configured as the source language and English (`eng_Latn`) forced as the target language.
 4. **English Speech Synthesis (TTS):** Converts translated English text into natural playable English speech (`gTTS`).
 5. **Real-time Diagnostics:** Displays input audio duration, estimated SNR, per-module execution latency, and step-by-step transcriptions.
 
@@ -56,3 +56,5 @@ To deploy on **Hugging Face Spaces**:
 1. Create a new Space with the **Gradio** SDK.
 2. Upload `app.py`, `requirements.txt`, and the sample audio files (`sample_telugu.mp3`, etc.).
 3. The Space will automatically build and start the web interface.
+
+The NLLB translation checkpoint is downloaded on first use and requires about 2.5 GB of cache space. Set `HF_HOME` to a location with sufficient free space if needed. The checkpoint is licensed CC-BY-NC-4.0; review its license before any commercial deployment.
